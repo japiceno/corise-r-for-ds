@@ -97,18 +97,18 @@ tbl_names_popular |>
   # Reorder the names by number of births
   mutate(name = fct_reorder(name, nb_births)) |>
   # Initialize a ggplot for name vs. nb_births
-  ggplot(aes(x = ___, y = ___)) +
+  ggplot(aes(x = name, y = nb_births)) +
   # Add a column plot layer
   geom_col() +
   # Facet the plots by sex
-  facet_wrap(~ ___, scales = "free_y") +
+  facet_wrap(~ sex, scales = "free_y") +
   # Add labels (title, subtitle, caption, x, y)
   labs(
-    title = '___',
-    subtitle = '___',
-    caption = '___',
-    x = '___',
-    y = '___'
+    title = 'Most Popular Baby Names in US',
+    subtitle = 'Emma and Noah are Most Popular',
+    caption = 'Source: Social Security Admin.',
+    x = 'Names',
+    y = 'Number of Births'
   ) +
   # Fix the x-axis scale 
   scale_x_continuous(
@@ -140,21 +140,21 @@ We need to transform the data into a table that consists of the columns `sex`, `
 ```{r question-2-transform}
 tbl_names_popular_trendy = tbl_names |> 
   # Group by sex and name
-  ___(___, ___) |> 
+  group_by(sex, name) |> 
   # Summarize total number of births and max births in a year
   summarize(
-    nb_births_total = ___(___),
-    nb_births_max = ___(___),
+    nb_births_total = sum(nb_births),
+    nb_births_max = max(nb_births),
     .groups = "drop"
   ) |> 
   # Filter for names with at least 10000 births
-  ___(___ > ___) |> 
+  subset(nb_births_total > 10000) |> 
   # Add a column for trendiness computed as ratio of max to total
-  ___(___ = ___ / ___) |> 
+  ___(trendiness = nb_births_max / nb_births_total) |> 
   # Group by sex
-  ___(___) |> 
+  group_by(sex) |> 
   # Slice top 5 rows by trendiness for each group
-  ___(___, n = ___)
+  slice_max(trendiness, n = 5)
 
 tbl_names_popular_trendy
 ```
