@@ -46,8 +46,7 @@ Let us start by importing the data from `data/names.csv.gz`. You can use the `re
 library(tidyverse)
 
 # Read the csv file `file_name_names` as data frame `tbl_names`
-## FIX THE DIRECTORY IN POST
-file_name_names <- here::here("names.csv.gz")
+file_name_names <- here::here("data/names.csv.gz")
 tbl_names <- readr::read_csv(
   file = file_name_names, 
   show_col_types = FALSE
